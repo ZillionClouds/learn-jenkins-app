@@ -71,7 +71,9 @@ pipeline{
                 sh '''
                     npm install netlify-cli@20.1.1 -g
                     netlify --version
-                    netlify status
+                    netlify status \
+                    --site $NETLIFY_PROJECT_ID \
+                    --auth $NETLIFY_AUTH_TOKEN
                 '''
             }
         }
