@@ -64,14 +64,11 @@ pipeline{
 
             steps{
                 sh '''
-                    npm uninstall netlify-cli -g
-                    #netlify --version
+                    npm install netlify-cli@20.1.1 -g
+                    netlify --version
                 '''
             }
         }
-
-        
-
     }
     post {
         always {
