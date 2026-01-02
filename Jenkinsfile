@@ -15,7 +15,7 @@ pipeline{
         stage("Build"){
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'my-jenkins'
                     reuseNode true
                 }
             }
@@ -67,15 +67,13 @@ pipeline{
         stage("Deploy"){
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'my-jenkins'
                     reuseNode true
                 }
             }
 
             steps{
                 sh '''
-                    npm install netlify-cli@20.1.1 -g
-                    
                     echo "Netlify CLI version:"
                     netlify --version
 
