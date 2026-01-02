@@ -2,29 +2,29 @@ pipeline{
     agent any
 
     environment {
-        NETLIFY_PROJECT_ID = "ce1c5692-c35d-4cb0-ab44-fcb9ca086251"
+        NETLIFY_SITE_ID = "ce1c5692-c35d-4cb0-ab44-fcb9ca086251"
         NETLIFY_AUTH_TOKEN = credentials("netlify-token")
     }
 
     stages{
-        // stage("Build"){
-        //     agent {
-        //         docker {
-        //             image 'node:18-alpine'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         sh '''
-        //             ls -la
-        //             node --version
-        //             npm --version
-        //             npm ci
-        //             npm run build
-        //             ls -la
-        //         '''
-        //     }
-        // }
+        stage("Build"){
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
+            }
+        }
 
         // stage("Run Parallel Tests"){
         //     parallel{
@@ -70,10 +70,20 @@ pipeline{
             steps{
                 sh '''
                     npm install netlify-cli@20.1.1 -g
+                    
+                    echo "Netlify CLI version:"
                     netlify --version
-                    netlify status \
-                    --site $NETLIFY_PROJECT_ID \
-                    --auth $NETLIFY_AUTH_TOKEN
+
+                    echo "Checking Netlify site status..."
+                    netlify status || {
+                        echo "Netlify status check failed"
+                        exit 1
+                    }
+
+                    #echo "Deploying to Netlify..."
+                    #netlify status \
+                    #--site $NETLIFY_PROJECT_ID \
+                    #--auth $NETLIFY_AUTH_TOKEN
                 '''
             }
         }
