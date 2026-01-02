@@ -80,10 +80,8 @@ pipeline{
                         exit 1
                     }
 
-                    #echo "Deploying to Netlify..."
-                    #netlify status \
-                    #--site $NETLIFY_PROJECT_ID \
-                    #--auth $NETLIFY_AUTH_TOKEN
+                    echo "Deploying to Netlify..."
+                    netlify deploy --dir=build --prod
                 '''
             }
         }
