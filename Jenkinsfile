@@ -7,6 +7,11 @@ pipeline{
     }
 
     stages{
+        stage("Docker"){
+            steps{
+                sh 'docker build -t my-jenkins .'
+            }
+        }
         stage("Build"){
             agent {
                 docker {
